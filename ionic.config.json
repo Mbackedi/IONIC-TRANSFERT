@@ -1,5 +1,7 @@
 {
   "name": "Transfert",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
