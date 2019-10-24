@@ -1,50 +1,186 @@
 <ion-header>
-  <ion-toolbar color="danger">
-    <ion-title>Transaction</ion-title>
-  </ion-toolbar>
+    <ion-toolbar color="danger">
+        <ion-title>Transaction</ion-title>
+    </ion-toolbar>
 </ion-header>
+
 <ion-content>
-  <form #f="ngForm" (ngSubmit)="onSwap(f.value)">
-
     <!-- dfghjk -->
-    <button ion-button full round (click)="onButtonClick()">Envoi</button>
+    <!--<button ion-button full round (click)="onButtonClick()">Envoi</button>
     <div class="row"></div>
-    <button ion-button full round (click)="offButtonClick()">Retrait</button>
+    <button ion-button full round (click)="offButtonClick()">Retrait</button>-->
 
-    <!-- <ion-input *ngIf="buttonClicked" type="text" value=""></ion-input> -->
-    <!-- tghjk -->
-    <ion-item>
-      <ion-input *ngIf="butonClicked" type="text" id="client_emetteur" name="client_emetteur"
-                 placeholder="client_emetteur">
-      </ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-input *ngIf="butonClicked" type="text" id="tel_emetteur" name="tel_emetteur" ngModel
-                 placeholder="tel_emetteur"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-input *ngIf="butonClicked" type="text" id="nci_emetteur" name="nci_emetteur" ngModel
-                 placeholder="nci_emetteur"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-input *ngIf="butonClicked" type="text" id="montant" name="montant" ngModel placeholder="montant"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-input *ngIf="butonClicked" type="text" id="client_recepteur" name="client_recepteur" ngModel
-                 placeholder="client_recepteur">
-      </ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-input *ngIf="butonClicked" type="text" id="tel_recepteur" name="tel_recepteur" ngModel
-                 placeholder="tel_recepteur"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-input *ngIf="buttonClicked" type="text" id="code" name="code" ngModel placeholder="code"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-input *ngIf="buttonClicked" type="text" id="nci_recepteur" name="nci_recepteur" ngModel placeholder="nci_recepteur"></ion-input>
-    </ion-item>
-    <ion-button type="submit">Envoyer</ion-button>
-  </form>
+    <div class="flex">
+        <ion-grid>
+            <ion-row>
+                <ion-col>
+                    <ion-button expand="block" color="primary" shape="round" type="submit" (click)="onButtonClick()">
+                        <ion-icon slot="start" name="send"></ion-icon>
+                        Envoie
+                    </ion-button>
+                </ion-col>
+                <ion-col>
+                    <ion-button expand="block" color="success" shape="round" type="submit" (click)="offButtonClick()">
+                        <ion-icon slot="start" name="checkmark-circle"></ion-icon>
+                        Retrait
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    
+    </div>
+
+                            <h5>Envoyeur</h5>
+
+    <form [formGroup]="envoie" (ngSubmit)="onsubmit()">
+
+        <!-- <ion-input *ngIf="buttonClicked" type="text" value=""></ion-input> -->
+        <!-- tghjk -->
+            <div *ngIf="butonClicked"> 
+                <ion-item class="form-group">
+                <ion-input type="text" formControlName="nomExp" placeholder="nomExp"></ion-input>
+                <div *ngFor="let error of erreurmes.nomExp">
+                    <div *ngIf="envoie.get('nomExp').hasError(error.type) &&
+                                                                                                                                         (envoie.get('nomExp').dirty || (envoie.get('nomExp').touched))">
+                        {{error.message}}
+                    </div>
+                </div>
+               </ion-item>
+
+            <ion-item>
+                <ion-input type="text" formControlName="prenomExp" placeholder="prenomExp"></ion-input>
+                <div *ngFor="let error of erreurmes.prenomExp">
+                    <div *ngIf="envoie.get('prenomExp').hasError(error.type) &&
+                                                                                                                                                                                                                  (envoie.get('prenomExp').dirty || (envoie.get('prenomExp').touched))">
+                        {{error.message}}
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <ion-input type="text" formControlName="telephonExp" placeholder="telephonExp"></ion-input>
+                <div *ngFor="let error of erreurmes.telephonExp">
+                    <div *ngIf="envoie.get('telephonExp').hasError(error.type) &&
+                                                                                                                                           (envoie.get('telephonExp').dirty || (envoie.get('telephonExp').touched))">
+                        {{error.message}}
+                    </div>
+                </div>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="floating">Type de Piece
+                </ion-label>
+                <ion-select type="typePiece" value="brown" oktext="OK" canceltext="Annuler">
+                    <ion-select-option value="CIN">CIN</ion-select-option>
+                    <ion-select-option value="Passeport">Passeport</ion-select-option>
+                    <ion-select-option value="Permis de Conduire">Permis de Conduire</ion-select-option>
+                </ion-select>
+            </ion-item>
+
+            <ion-item>
+                <ion-input type="number" formControlName="montant" placeholder="montant"></ion-input>
+                <div *ngFor="let error of erreurmes.montant">
+                    <div *ngIf="envoie.get('montant').hasError(error.type) &&
+                                                                                                                                           (envoie.get('montant').dirty || (envoie.get('montant').touched))">
+                        {{error.message}}
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item>
+                <ion-input type="number" formControlName="numeropieceEXp" placeholder="numeropiece"></ion-input>
+                <div *ngFor="let error of erreurmes.numeropieceEXp">
+                    <div *ngIf="envoie.get('numeropieceEXp').hasError(error.type) &&
+                                                                                                                                          (envoie.get('numeropieceEXp').dirty || (envoie.get('numeropieceEXp').touched))">
+                        {{error.message}}
+                    </div>
+                </div>
+
+            </ion-item>
+
+                 <h5>Bénéficiaire</h5>
+
+        </div>
+
+            <ion-item class="form-group"  *ngIf="butonClicked">
+                <ion-input type="text" formControlName="nomBen" placeholder="nomBen"></ion-input>
+                <div *ngFor="let error of erreurmes.nomBen">
+                    <div
+                        *ngIf="envoie.get('nomBen').hasError(error.type) &&
+                                                                                                                                                     (envoie.get('nomExp').dirty || (envoie.get('nomExp').touched))">
+                        {{error.message}}
+                    </div>
+                </div>
+            </ion-item>
+
+            <ion-item class="form-group"  *ngIf="butonClicked">
+                <ion-input type="text" formControlName="prenomBen" placeholder="prenomBen"></ion-input>
+                <div *ngFor="let error of erreurmes.prenomBen">
+                    <div
+                        *ngIf="envoie.get('prenomBen').hasError(error.type) &&
+                                                                                                                                                                 (envoie.get('nomExp').dirty || (envoie.get('nomExp').touched))">
+                        {{error.message}}
+                    </div>
+                </div>
+            </ion-item>
+
+            <ion-item class="form-group"  *ngIf="butonClicked">
+                <ion-input type="text" formControlName="telephonBen" placeholder="telephonBen"></ion-input>
+                <div *ngFor="let error of erreurmes.telephonBen">
+                    <div
+                        *ngIf="envoie.get('telephonBen').hasError(error.type) &&
+                                                                                                                                                                             (envoie.get('nomExp').dirty || (envoie.get('nomExp').touched))">
+                        {{error.message}}
+                    </div>
+                </div>
+            </ion-item>
+
+            <ion-item class="form-group">
+                <ion-input type="text" formControlName="numeropieceBen" placeholder="numeropieceBen"></ion-input>
+                <div *ngFor="let error of erreurmes.numeropieceBen">
+                    <div
+                        *ngIf="envoie.get('numeropieceBen').hasError(error.type) &&
+                                                                                                                                                                                         (envoie.get('nomExp').dirty || (envoie.get('nomExp').touched))">
+                        {{error.message}}
+                    </div>
+                </div>
+            </ion-item>
+
+
+
+        <div *ngIf="!butonClicked">
+
+            <ion-item>
+                <ion-input type="text" formControlName="code" placeholder="code"></ion-input>
+                <div *ngFor="let error of erreurmes.code">
+                    <div *ngIf="envoie.get('code').hasError(error.type) &&
+                                                                                                                                         (envoie.get('code').dirty || (envoie.get('code').touched))">
+                        {{error.message}}
+                    </div>
+                </div>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="floating">Type de Piece </ion-label>
+                <ion-select type="typePiece" value="brown" oktext="OK" canceltext="Annuler">
+                    <ion-select-option value="CIN">CIN</ion-select-option>
+                    <ion-select-option value="Passeport">Passeport</ion-select-option>
+                    <ion-select-option value="Permis de Conduire">Permis de Conduire</ion-select-option>
+                </ion-select>
+            </ion-item>
+
+            <ion-item>
+                <ion-input type="number" formControlName="numeropieceBen" placeholder="numeropiece"></ion-input>
+                <div *ngFor="let error of erreurmes.numeropieceBen">
+                    <div *ngIf="envoie.get('numeropieceBen').hasError(error.type) &&
+                          (envoie.get('numeropieceBen').dirty || (envoie.get('numeropieceBen').touched))">
+                        {{error.message}}
+                    </div>
+                </div>
+            </ion-item>
+
+
+
+        </div>
+        <ion-button type="submit">Envoyer</ion-button>
+    </form>
 
 </ion-content>
