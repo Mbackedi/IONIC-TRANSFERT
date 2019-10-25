@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TransactionService } from '../services/transaction.service';
+import { AlertController } from '@ionic/angular';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 
 @Component({
@@ -9,6 +10,7 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 })
 export class TransactionPage implements OnInit {
   public envoie: FormGroup;
+  public retrait: FormGroup;
   public butonClicked: boolean = true;
 
   //masquer l' envoi
@@ -20,7 +22,30 @@ export class TransactionPage implements OnInit {
     this.butonClicked = false;
   }
 
-  constructor(private enve: TransactionService, private formBuilder: FormBuilder) { }
+  constructor(private enve: TransactionService, private formBuilder: FormBuilder, 
+    public alertController: AlertController, public retre: TransactionService) { }
+
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Envoie',
+      subHeader: 'KIMORA TRANSFERT',
+      message: 'Envoie effectué avec succès.',
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
+  
+  async presentAlertError() {
+    const alert = await this.alertController.create({
+      header: 'Envoie',
+      subHeader: 'KIMORA TRANSFERT',
+      message: 'Envoie non effectué',
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
 
   ngOnInit() {
     this.envoie = this.formBuilder.group({
@@ -35,9 +60,16 @@ export class TransactionPage implements OnInit {
       telephonBen: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(9), Validators.pattern(/^7[0678]([0-9][0-9][0-9][0-9][0-9][0-9][0-9])/)]],
       code: ['', Validators.required]
     })
+
+    this.retrait = this.formBuilder.group({
+      typepieceBen: ['', [Validators.required, Validators.minLength(12), Validators.maxLength(9), Validators.pattern(/^7[0678]([0-9][0-9][0-9][0-9][0-9][0-9][0-9])/)]],
+      numeropieceBen: ['', [Validators.required, Validators.minLength(12), Validators.maxLength(9), Validators.pattern(/^7[0678]([0-9][0-9][0-9][0-9][0-9][0-9][0-9])/)]],
+      code: ['', Validators.required]
+
+    })
   }
 
-
+  
 
   erreurmes = {
     'nomExp': [
@@ -95,7 +127,21 @@ export class TransactionPage implements OnInit {
     this.enve.envoie(this.envoie.value)
       .subscribe(
         data => {
-          
+          this.presentAlert();
+
+        }, err => {
+          console.log(err);
+          this.presentAlertError();
+        }
+      )
+  }
+
+  onsubmite() {
+    console.log(this.retrait.value);
+    this.retre.retrait(this.retrait.value)
+      .subscribe(
+        data => {
+          console.log('Retrait effectué ')
 
         }, err => {
           console.log(err);

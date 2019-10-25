@@ -17,12 +17,11 @@ export class TransactionService {
     return this.http.post(host, envoye , { headers: headers });
   }
 
-  retrait(retrait) {
+  retrait(retrai) {
     var headers = new HttpHeaders().set("Authorization", "Bearer " + localStorage.getItem('token'));
     const host = "http://localhost:8000/api/retrait";
-    const formData: FormData = new FormData();
-    formData.append('code', retrait.code);
-    return this.http.post(host, formData, { headers: headers });
+  
+    return this.http.post(host, retrai, { headers: headers });
   }
 
 }

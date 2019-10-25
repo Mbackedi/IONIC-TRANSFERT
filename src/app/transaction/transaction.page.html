@@ -30,7 +30,7 @@
     
     </div>
 
-                            <h5>Envoyeur</h5>
+        <h5 *ngIf="butonClicked">Envoyeur </h5>
 
     <form [formGroup]="envoie" (ngSubmit)="onsubmit()">
 
@@ -86,7 +86,7 @@
                 </div>
             </ion-item>
             <ion-item>
-                <ion-input type="number" formControlName="numeropieceEXp" placeholder="numeropiece"></ion-input>
+                <ion-input type="number" formControlName="numeropieceEXp" placeholder="numeropieceExpediteur"></ion-input>
                 <div *ngFor="let error of erreurmes.numeropieceEXp">
                     <div *ngIf="envoie.get('numeropieceEXp').hasError(error.type) &&
                                                                                                                                           (envoie.get('numeropieceEXp').dirty || (envoie.get('numeropieceEXp').touched))">
@@ -100,6 +100,7 @@
 
         </div>
 
+        
             <ion-item class="form-group"  *ngIf="butonClicked">
                 <ion-input type="text" formControlName="nomBen" placeholder="nomBen"></ion-input>
                 <div *ngFor="let error of erreurmes.nomBen">
@@ -133,7 +134,7 @@
                 </div>
             </ion-item>
 
-            <ion-item class="form-group">
+            <ion-item class="form-group" *ngIf="butonClicked">
                 <ion-input type="text" formControlName="numeropieceBen" placeholder="numeropieceBen"></ion-input>
                 <div *ngFor="let error of erreurmes.numeropieceBen">
                     <div
@@ -146,41 +147,45 @@
 
 
 
-        <div *ngIf="!butonClicked">
+      
+        <ion-button type="submit" *ngIf="butonClicked"> Envoyer</ion-button>
+    </form>
 
-            <ion-item>
-                <ion-input type="text" formControlName="code" placeholder="code"></ion-input>
-                <div *ngFor="let error of erreurmes.code">
-                    <div *ngIf="envoie.get('code').hasError(error.type) &&
-                                                                                                                                         (envoie.get('code').dirty || (envoie.get('code').touched))">
-                        {{error.message}}
-                    </div>
+    <form [formGroup]="retrait" *ngIf="!butonClicked" (ngSubmit)="onsubmite()">
+
+        <ion-item>
+            <ion-input type="text" formControlName="code" placeholder="code"></ion-input>
+            <div *ngFor="let error of erreurmes.code">
+                <div
+                    *ngIf="envoie.get('code').hasError(error.type) &&
+                                                                                                                                                 (envoie.get('code').dirty || (envoie.get('code').touched))">
+                    {{error.message}}
                 </div>
-            </ion-item>
+            </div>
+        </ion-item>
+        
+        <ion-item>
+            <ion-label position="floating">Type de Piece </ion-label>
+            <ion-select type="typePiece" formControlName="typepieceBen" value="brown" oktext="OK" canceltext="Annuler">
+                <ion-select-option value="CIN">CIN</ion-select-option>
+                <ion-select-option value="Passeport">Passeport</ion-select-option>
+                <ion-select-option value="Permis de Conduire">Permis de Conduire</ion-select-option>
+            </ion-select>
+        </ion-item>
 
-            <ion-item>
-                <ion-label position="floating">Type de Piece </ion-label>
-                <ion-select type="typePiece" value="brown" oktext="OK" canceltext="Annuler">
-                    <ion-select-option value="CIN">CIN</ion-select-option>
-                    <ion-select-option value="Passeport">Passeport</ion-select-option>
-                    <ion-select-option value="Permis de Conduire">Permis de Conduire</ion-select-option>
-                </ion-select>
-            </ion-item>
-
-            <ion-item>
-                <ion-input type="number" formControlName="numeropieceBen" placeholder="numeropiece"></ion-input>
-                <div *ngFor="let error of erreurmes.numeropieceBen">
-                    <div *ngIf="envoie.get('numeropieceBen').hasError(error.type) &&
-                          (envoie.get('numeropieceBen').dirty || (envoie.get('numeropieceBen').touched))">
-                        {{error.message}}
-                    </div>
+        <ion-item class="form-group">
+            <ion-input type="text" formControlName="numeropieceBen" placeholder="numeropieceBen"></ion-input>
+            <div *ngFor="let error of erreurmes.numeropieceBen">
+                <div
+                    *ngIf="envoie.get('numeropieceBen').hasError(error.type) &&
+                                                                                                                                                                                                 (envoie.get('nomExp').dirty || (envoie.get('nomExp').touched))">
+                    {{error.message}}
                 </div>
-            </ion-item>
+            </div>
+        </ion-item>
 
+        <ion-button type="submit" >Retrait</ion-button>
 
-
-        </div>
-        <ion-button type="submit">Envoyer</ion-button>
     </form>
 
 </ion-content>
