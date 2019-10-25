@@ -22,7 +22,7 @@ export class TransactionPage implements OnInit {
     this.butonClicked = false;
   }
 
-  constructor(private enve: TransactionService, private formBuilder: FormBuilder, 
+  constructor(private enve: TransactionService, private formBuilder: FormBuilder,
     public alertController: AlertController, public retre: TransactionService) { }
 
   async presentAlert() {
@@ -35,12 +35,34 @@ export class TransactionPage implements OnInit {
 
     await alert.present();
   }
-  
+
+  async presentRetrait() {
+    const alert = await this.alertController.create({
+      header: 'Retrait',
+      subHeader: 'SUNU TRANSFERT',
+      message: 'Retrait effectué avec succès.',
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
+
   async presentAlertError() {
     const alert = await this.alertController.create({
       header: 'Envoie',
       subHeader: 'KIMORA TRANSFERT',
       message: 'Envoie non effectué',
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
+
+  async presentRtraitError() {
+    const alert = await this.alertController.create({
+      header: 'Retrait',
+      subHeader: 'AND TRANSFERT',
+      message: 'Code invalide ou déjà retiré',
       buttons: ['OK']
     });
 
@@ -69,7 +91,7 @@ export class TransactionPage implements OnInit {
     })
   }
 
-  
+
 
   erreurmes = {
     'nomExp': [
@@ -125,6 +147,7 @@ export class TransactionPage implements OnInit {
   onsubmit() {
     console.log(this.envoie.value);
     this.enve.envoie(this.envoie.value)
+
       .subscribe(
         data => {
           this.presentAlert();
@@ -141,10 +164,11 @@ export class TransactionPage implements OnInit {
     this.retre.retrait(this.retrait.value)
       .subscribe(
         data => {
-          console.log('Retrait effectué ')
-
+          console.log('Retrait effectué ');
+          this.presentRetrait();
         }, err => {
           console.log(err);
+          this.presentRtraitError();
         }
       )
   }

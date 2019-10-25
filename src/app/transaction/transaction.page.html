@@ -134,19 +134,7 @@
                 </div>
             </ion-item>
 
-            <ion-item class="form-group" *ngIf="butonClicked">
-                <ion-input type="text" formControlName="numeropieceBen" placeholder="numeropieceBen"></ion-input>
-                <div *ngFor="let error of erreurmes.numeropieceBen">
-                    <div
-                        *ngIf="envoie.get('numeropieceBen').hasError(error.type) &&
-                                                                                                                                                                                         (envoie.get('nomExp').dirty || (envoie.get('nomExp').touched))">
-                        {{error.message}}
-                    </div>
-                </div>
-            </ion-item>
-
-
-
+          
       
         <ion-button type="submit" *ngIf="butonClicked"> Envoyer</ion-button>
     </form>
