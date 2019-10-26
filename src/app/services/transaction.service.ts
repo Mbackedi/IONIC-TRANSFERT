@@ -24,4 +24,11 @@ export class TransactionService {
     return this.http.post(host, retrai, { headers: headers });
   }
 
+  frais(frai) {
+    var headers = new HttpHeaders().set("Authorization", "Bearer " + localStorage.getItem('token'));
+    const host = "http://localhost:8000/api/frais/1";
+
+    return this.http.post(host, frai, { headers: headers });
+  }
+
 }

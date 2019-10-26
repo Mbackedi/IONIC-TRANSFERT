@@ -12,6 +12,7 @@ export class TransactionPage implements OnInit {
   public envoie: FormGroup;
   public retrait: FormGroup;
   public butonClicked: boolean = true;
+  tarif: Object;
 
   //masquer l' envoi
   public onButtonClick() {
@@ -22,8 +23,8 @@ export class TransactionPage implements OnInit {
     this.butonClicked = false;
   }
 
-  constructor(private enve: TransactionService, private formBuilder: FormBuilder,
-    public alertController: AlertController, public retre: TransactionService) { }
+  constructor(private transaction: TransactionService, private formBuilder: FormBuilder,
+    public alertController: AlertController) { }
 
   async presentAlert() {
     const alert = await this.alertController.create({
@@ -146,7 +147,7 @@ export class TransactionPage implements OnInit {
 
   onsubmit() {
     console.log(this.envoie.value);
-    this.enve.envoie(this.envoie.value)
+    this.transaction.envoie(this.envoie.value)
 
       .subscribe(
         data => {
@@ -161,7 +162,7 @@ export class TransactionPage implements OnInit {
 
   onsubmite() {
     console.log(this.retrait.value);
-    this.retre.retrait(this.retrait.value)
+    this.transaction.retrait(this.retrait.value)
       .subscribe(
         data => {
           console.log('Retrait effectué ');
@@ -170,6 +171,19 @@ export class TransactionPage implements OnInit {
           console.log(err);
           this.presentRtraitError();
         }
+      )
+  }
+
+  frais(data: any) {
+    console.log(data);
+    this.transaction.frais(data)
+      .subscribe(
+        res => {
+          this.tarif = res;
+          console.log(res);
+          console.log(this.tarif);
+        }
+
       )
   }
 
