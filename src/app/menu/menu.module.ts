@@ -10,7 +10,14 @@ import { MenuPage } from './menu.page';
 const routes: Routes = [
   {
     path: '',
-    component: MenuPage
+    component: MenuPage,
+    children:[
+      { path: 'lister', loadChildren: './lister/lister.module#ListerPageModule' },
+      { path: 'transaction', loadChildren: './transaction/transaction.module#TransactionPageModule' },
+      { path: 'home', loadChildren: './home/home.module#HomePageModule' },
+      
+ 
+   ]
 
 
   }

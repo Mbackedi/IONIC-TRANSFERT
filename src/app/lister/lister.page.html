@@ -1,0 +1,71 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>LISTE TRANSACTION</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-list-header>
+        details transactions
+    </ion-list-header>
+    <form [formGroup]="detailTransaction" (ngSubmit)="detailist()">
+        <ion-item class="form-group">
+            <ion-label>Date Début</ion-label>
+            <ion-datetime formControlName="debut" displayformat="MMM D, YYYY" type="date" usevalueasdate></ion-datetime>
+
+        </ion-item>
+        <ion-item class="form-group">
+            <ion-label>Date Fin</ion-label>
+            <ion-datetime formControlName="fin" displayformat="MMM D, YYYY" type="date" usevalueasdate></ion-datetime>
+        </ion-item>
+
+        <div class="flex">
+            <ion-button color="success" expand="block" shape="round" type="submit">
+                LISTER
+            </ion-button>
+
+        </div>
+    </form>
+
+    <div class="bar bar-header bar-dark">
+    
+        <ion-segment ng-model="operations" (ionChange)="segmentChanged($event)" assertive>
+            <ion-segment-button value="Transactions" checked (click)="transact()">
+                Transactions
+            </ion-segment-button>
+            <ion-segment-button value="Commissions" (click)="commission()">
+                Commissions
+            </ion-segment-button>
+    
+        </ion-segment>
+    </div>
+    
+    
+    <div ng-switch="operations">
+    
+        <ion-list ng-switch-when="Transactions" *ngIf="!trans">
+            <ion-item *ngFor="let d of detailTs" (click)="goToView(d)" detail>
+                <ion-label>
+                    <h2>Montant {{d.montant}} FCFA</h2>
+                    <h3> Tarif {{d.commissionetat}} FCFA</h3>
+                </ion-label>
+            </ion-item>
+        </ion-list>
+    
+        <ion-list ng-switch-when="Commissions" *ngIf="trans">
+            <ion-item *ngFor="let d of detailTs" (click)="goToView(d)" detail>
+                <ion-label>
+                    <h2>Commission Envoie {{d.commissionparte }} FCFA</h2>
+    
+                    <h2>Commission Retrait {{d.commissionsup }} FCFA</h2>
+    
+    
+                </ion-label>
+            </ion-item>
+        </ion-list>
+    </div>
+
+</ion-content>

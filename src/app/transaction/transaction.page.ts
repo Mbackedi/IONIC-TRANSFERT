@@ -165,8 +165,8 @@ export class TransactionPage implements OnInit {
     this.transaction.retrait(this.retrait.value)
       .subscribe(
         data => {
-          console.log('Retrait effectué ');
           this.presentRetrait();
+          
         }, err => {
           console.log(err);
           this.presentRtraitError();
